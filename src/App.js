@@ -44,6 +44,18 @@ const App = () => {
 
    const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+   const previousPage = () => {
+      if (currentPage !== 1) {
+         setCurrentPage(currentPage - 1);
+      }
+   };
+ 
+   const nextPage = () => {
+      if (currentPage !== Math.ceil(blogPosts.length / postsPerPage)) {
+         setCurrentPage(currentPage + 1);
+      }
+   };
+
    return (
       <div className="container">
          <div className="title">
@@ -91,6 +103,8 @@ const App = () => {
                   postsPerPage={postsPerPage}
                   totalPosts={blogPosts.length}
                   paginate={paginate}
+                  previousPage={previousPage}
+                  nextPage={nextPage}
                />
             </div>
          ) : (
