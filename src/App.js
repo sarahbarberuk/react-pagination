@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { request } from 'graphql-request';
-import Paginate from './Paginate'; 
+// import Paginate from './Paginate'; 
+import ReactPaginate from 'react-paginate';
 
 const App = () => {
    const [blogPosts, setBlogPosts] = useState([]);
@@ -42,18 +43,25 @@ const App = () => {
    const indexOfFirstPost = indexOfLastPost - postsPerPage;
    const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
 
-   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-   const previousPage = () => {
-      if (currentPage !== 1) {
-         setCurrentPage(currentPage - 1);
-      }
-   };
+   // Paginate.js
+   // const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+   // const previousPage = () => {
+   //    if (currentPage !== 1) {
+   //       setCurrentPage(currentPage - 1);
+   //    }
+   // };
  
-   const nextPage = () => {
-      if (currentPage !== Math.ceil(blogPosts.length / postsPerPage)) {
-         setCurrentPage(currentPage + 1);
-      }
+   // const nextPage = () => {
+   //    if (currentPage !== Math.ceil(blogPosts.length / postsPerPage)) {
+   //       setCurrentPage(currentPage + 1);
+   //    }
+   // };
+
+   //react-paginate
+   const paginate = ({ selected }) => {
+      setCurrentPage(selected + 1);
    };
 
    return (
@@ -99,12 +107,23 @@ const App = () => {
                      </div>
                   ))}
                </div>
-               <Paginate
+               {/* <Paginate
                   postsPerPage={postsPerPage}
                   totalPosts={blogPosts.length}
                   paginate={paginate}
                   previousPage={previousPage}
                   nextPage={nextPage}
+               /> */}
+               <ReactPaginate
+                  onPageChange={paginate}
+                  pageCount={Math.ceil(blogPosts.length / postsPerPage)}
+                  previousLabel={'Prev'}
+                  nextLabel={'Next'}
+                  containerClassName={'pagination'}
+                  pageLinkClassName={'page-number'}
+                  previousLinkClassName={'page-number'}
+                  nextLinkClassName={'page-number'}
+                  activeLinkClassName={'active'}
                />
             </div>
          ) : (
